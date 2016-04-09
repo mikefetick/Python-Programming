@@ -1,0 +1,134 @@
+                // Set the error message, unique for each credit card type
+                string errorString = "Card Card Number is required\n" +
+
+                switch (cboCreditCard.SelectedIndex)
+                {
+                    case 0: errorString = "Visa starts with a 4 and\n"
+                                         + " followed by 12 or 15 other digits.";
+                        break; // Visa
+                    case 1: errorString = "Mastercard starts with 51..55 and\n"
+                                         + " followed by 14 other digits.";
+                        break; // Mastercard
+                    case 2: errorString = "Discover starts with 6011 and\n"
+                                         + " followed by 12 other digits.";
+                        break; // Discover
+                    case 3: errorString = "Diners Club starts with 300..305,\n"
+                                         + " followed by 11 other digits;\n"
+                                         + "or starts with 36 or 38 and\n"
+                                         + " followed by 12 other digits.";
+                        break; // Diners Club
+                    case 4: errorString = "American Express starts with 34 or 37 and\n"
+                                         + " followed by 13 other digits.";
+                        break; // American Express
+                }
+                txtCcNumberEP.SetError(this.txtCcNumber, errorString);
+            }
+        }
+
+        private void txtCcCvc_Validated(object sender, System.EventArgs e)
+        {
+            // Calls unique method to determine if txtCcCvc value is valid
+            if (IsCcCvcValid())
+            {
+                // Clear the error, if any, in the error provider.
+                txtCcCvcEP.SetError(this.txtCcCvc, String.Empty);
+
+                // Enable controls to add or update customer data
+                if (ValidCustomerData())
+                {
+                    btnCustomerSave.Enabled = true;
+                }
+                else
+                {
+                    btnCustomerSave.Enabled = false;
+                }
+            }
+            else
+            {
+                // Set the error message, unique for each credit card type
+                string errorString = "Card Card CVC is required\n" +
+                                                       "e.g.'123' or '1234'";
+                switch (cboCreditCard.SelectedIndex)
+                {
+                    case 0: errorString = "Visa CVC is 3 digits.";
+                        break; // Visa
+                    case 1: errorString = "Mastercard CVC is 3 digits.";
+                        break; // Mastercard
+                    case 2: errorString = "Discover CVC is 3 digits.";
+                        break; // Discover
+                    case 3: errorString = "Diners Club CVC is 3 digits.";
+                        break; // Diners Club
+                    case 4: errorString = "American Express CVC is 4 digits.";
+                        break; // American Express
+                }
+                txtCcCvcEP.SetError(this.txtCcCvc, errorString);
+            }
+        }
+
+...
+            {
+                // Set the error message, unique for each credit card type
+                string errorString = "Card Card CVC is required\n" +
+                                                       "e.g.'123' or '1234'";
+                switch (cboCreditCard.SelectedIndex)
+                {
+                    case 0: errorString = "Visa CVC is 3 digits.";
+                        break; // Visa
+                    case 1: errorString = "Mastercard CVC is 3 digits.";
+                        break; // Mastercard
+                    case 2: errorString = "Discover CVC is 3 digits.";
+                        break; // Discover
+                    case 3: errorString = "Diners Club CVC is 3 digits.";
+                        break; // Diners Club
+                    case 4: errorString = "American Express CVC is 4 digits.";
+                        break; // American Express
+                }
+                txtCcCvcEP.SetError(this.txtCcCvc, errorString);
+            }
+
+...
+            // Validate credit card number patterns of five companies
+            string cregx = "";
+            switch (cboCreditCard.SelectedIndex)
+            {
+                case 0: cregx = @"^4(\d{12}|\d{15})$"; 
+                        break; // Visa
+                case 1: cregx = @"^5[1-5]\d{14}$"; 
+                        break; // Mastercard
+                case 2: cregx = @"^6011\d{12}$"; 
+                        break; // Discover
+                case 3: cregx = @"^30[0-5]\d{11}$|^3[68]\d{12}$"; 
+                        break; // Diners Club
+                case 4: cregx = @"^3[47]\d{13}$"; 
+                        break; // American Express
+            }
+            bool luhn = true;
+            // Implement the luhn method later... (luhn(txtCcNumber.Text))
+
+...
+        private bool IsCcCvcValid()
+        {
+            // Uses Regular Expression "(CVV2/CVC2/CID)" described at:
+            // http://www.regexlib.com/REDetails.aspx?regexp_id=908
+
+            //string reg4 = @"^\d{4}$";   // Only American Express
+            //string reg3 = @"^\d{3}$";   // All other credit cards
+
+            // Validate credit card number patterns of five companies
+            string cregx = "";
+            switch (cboCreditCard.SelectedIndex)
+            {
+                case 0: cregx = @"^\d{3}$";
+                    break; // Visa
+                case 1: cregx = @"^\d{3}$";
+                    break; // Mastercard
+                case 2: cregx = @"^\d{3}$";
+                    break; // Discover
+                case 3: cregx = @"^\d{3}$";
+                    break; // Diners Club
+                case 4: cregx = @"^\d{4}$";
+                    break; // American Express
+            }
+
+
+		
